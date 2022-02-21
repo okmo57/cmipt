@@ -111,16 +111,29 @@ public:
         return count;
     }
 };
-
-int main(){
+void first_task(){
     int result;
     for(int i = 1; i < 30; i++){
         result = 0;
-        for(int j = 0; j < 100; j++){
+        for(int j = 0; j < 1000; j++){
             Crystal c(i, 1);
             result += c.mainloop();
         }
-        std::cout << i << " " << result / 100.0 << std::endl;
+        std::cout << i << " " << result / 1000.0 << std::endl;
     }
+}
+void second_task(){
+    int result;
+    for(int i = 1; i < 100; i++){
+        result = 0;
+        for(int j = 0; j < 1000; j++){
+            Crystal c(10, i);
+            result += c.mainloop();
+        }
+        std::cout << i << " " << result / 1000.0 << std::endl;
+    }
+}
+int main(){
+    second_task();
     return 0;
 }
