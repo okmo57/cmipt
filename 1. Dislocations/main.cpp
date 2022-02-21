@@ -1,7 +1,6 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include <fstream>
 
 class Crystal{
     int **map;
@@ -115,13 +114,13 @@ public:
 
 int main(){
     int result;
-    for(int i = 1; i < 100; i++){
+    for(int i = 1; i < 30; i++){
         result = 0;
         for(int j = 0; j < 100; j++){
             Crystal c(i, 1);
             result += c.mainloop();
         }
-        std::cout << i << ": " << result / 100.0 << std::endl;
+        std::cout << i << " " << result / 100.0 << std::endl;
     }
     return 0;
 }
