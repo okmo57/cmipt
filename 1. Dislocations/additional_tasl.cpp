@@ -28,7 +28,17 @@ class Crystal {
     	else{
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                std::cout << map2[i][j][0];
+	            	bool dislocation_exists = false;
+	            	for (int k = 0; k < size; k++){
+	            		if(map2[i][j][k]){
+	            			std::cout << map2[i][j][k];
+	            			dislocation_exists = true;
+	            			break;
+	            		}
+	            	}
+	            	if(!dislocation_exists){
+	            		std::cout << 0;
+	            	}
 	            }
 	            std::cout << std::endl;
 	        }
@@ -85,7 +95,7 @@ class Crystal {
 	                    int variant = random(0, 3);
 	                    rnd[0] = dir[variant][0];
 	                    rnd[1] = dir[variant][1];
-	                    if (!map[i + rnd[0]][j + rnd[1]]) {
+	                    if (!map1[i + rnd[0]][j + rnd[1]]) {
 	                        map1[i + rnd[0]][j + rnd[1]] = 2;
 	                        map1[i][j] = 0;
 	                    }
@@ -106,6 +116,7 @@ class Crystal {
 	                    		if(!map2[i + rnd[0]][j + rnd[1]][x]){
 	                        		map2[i + rnd[0]][j + rnd[1]][x] = 2;
 	                        		map2[i][j][k] = 0;
+	                        		break;
 	                    		}
 	                    	}
 	                	}
@@ -173,7 +184,7 @@ public:
         size = N;
         adhesion = ad;
         if(adhesion){
-	        map = new int *[size];
+	        map1 = new int *[size];
 	        for (int i = 0; i < size; i++) {
 	            map1[i] = new int[size];
 	        }
@@ -214,7 +225,7 @@ public:
 	        }
 	        for (int i = 0; i < size; i++){
 	        	for(int j = 0; j < size; j++){
-	        		for(int k = 0; k < map[i][j][0]; k++){
+	        		for(int k = 0; k < map2[i][j][0]; k++){
 	        			map2[i][j][k] = 1;
 	        		}
 	        	}
@@ -227,69 +238,19 @@ public:
         while (!finished()) {
         	print();
             check();
+            print();
             move();
+            print();
             stop();
             count++;
         }
         return count;
     }
 
-    void bottleneck() {
-        map1[1][1] = 1;
-        map1[2][2] = 1;
-        print();
-        move();
-        print();
-    }
 };
 
-void first_task() {
-    int result;
-    for (int i = 1; i < 30; i++) {
-        result = 0;
-        for (int j = 0; j < 1000; j++) {
-            Crystal c(i, 1);
-            result += c.mainloop();
-        }
-        std::cout << i << " " << result / 1000.0 << std::endl;
-    }
-}
-
-void second_task() {
-    int result;
-    for (int i = 1; i < 100; i++) {
-        result = 0;
-        for (int j = 0; j < 1000; j++) {
-            Crystal c(10, i);
-            result += c.mainloop();
-        }
-        std::cout << i << " " << result / 1000.0 << std::endl;
-    }
-}
-
-void third_task(){
-    int result1;
-    for (int i = 1; i < 30; i++) {
-        result1 = 0;
-        for (int j = 0; j < 1000; j++) {
-            Crystal_1d d(i, 1);
-            result1 += d.mainloop();
-        }
-        std::cout << i << " " << result1 / 1000.0 << std::endl;
-    }
-    int result2;
-    for (int i = 1; i < 10; i++) {
-        result2 = 0;
-        for (int j = 0; j < 1000; j++) {
-            Crystal_1d d(10, i);
-            result2 += d.mainloop();
-        }
-        std::cout << i << " " << result2 / 1000.0 << std::endl;
-    }
-}
-
 int main() {
-    Crystal c(5, 3, true);
+    Crystal c(5, 10, false);
     c.mainloop();
     return 0;
 }
