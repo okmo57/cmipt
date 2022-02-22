@@ -3,7 +3,8 @@
 #include <chrono>
 
 class Crystal {
-    int ***map;
+	int **map1;
+    int ***map2;
     int size;
     bool adhesion;
     const int dir[4][2] = {{-1, 0},
@@ -15,7 +16,7 @@ class Crystal {
     	if(adhesion){
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                std::cout << map[i][j];
+	                std::cout << map1[i][j];
 	            }
 	            std::cout << std::endl;
 	        }
@@ -27,7 +28,7 @@ class Crystal {
     	else{
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                std::cout << map[i][j][0];
+	                std::cout << map2[i][j][0];
 	            }
 	            std::cout << std::endl;
 	        }
@@ -49,15 +50,15 @@ class Crystal {
     }
     
     bool has_neighbor(int x, int y) {
-        return map[x - 1][y] || map[x + 1][y] || map[x][y - 1] || map[x][y + 1];
+        return map1[x - 1][y] || map1[x + 1][y] || map1[x][y - 1] || map1[x][y + 1];
     }
 
     void check() {
     	if (adhesion){
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                if ((map[i][j] == 1) && (on_edge(i, j) || has_neighbor(i, j))) {
-	                    map[i][j] = 3;
+	                if ((map1[i][j] == 1) && (on_edge(i, j) || has_neighbor(i, j))) {
+	                    map1[i][j] = 3;
 	                }
 	            }
 	        }
@@ -66,8 +67,8 @@ class Crystal {
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
 	            	for(int k = 0; k < size; k++){
-	            		if ((map[i][j][k] == 1) && on_edge(i, j)) {
-	                    	map[i][j][k] = 3;
+	            		if ((map2[i][j][k] == 1) && on_edge(i, j)) {
+	                    	map2[i][j][k] = 3;
 	            		}
 	            	}
 	            }
@@ -79,14 +80,14 @@ class Crystal {
     	if (adhesion){
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                if (map[i][j] == 1) {
+	                if (map1[i][j] == 1) {
 	                    int rnd[2];
 	                    int variant = random(0, 3);
 	                    rnd[0] = dir[variant][0];
 	                    rnd[1] = dir[variant][1];
 	                    if (!map[i + rnd[0]][j + rnd[1]]) {
-	                        map[i + rnd[0]][j + rnd[1]] = 2;
-	                        map[i][j] = 0;
+	                        map1[i + rnd[0]][j + rnd[1]] = 2;
+	                        map1[i][j] = 0;
 	                    }
 	                }
 	            }
@@ -96,15 +97,15 @@ class Crystal {
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
 	            	for (int k = 0; k < size; k++) {
-	                	if (map[i][j][k] == 1) {
+	                	if (map2[i][j][k] == 1) {
 	                    	int rnd[2];
 	                    	int variant = random(0, 3);
 	                    	rnd[0] = dir[variant][0];
 	                    	rnd[1] = dir[variant][1];
 	                    	for(int x = 0; x < size; x++){
-	                    		if(!map[i + rnd[0]][j + rnd[1]][x]){
-	                        		map[i + rnd[0]][j + rnd[1]][x] = 2;
-	                        		map[i][j][k] = 0;
+	                    		if(!map2[i + rnd[0]][j + rnd[1]][x]){
+	                        		map2[i + rnd[0]][j + rnd[1]][x] = 2;
+	                        		map2[i][j][k] = 0;
 	                    		}
 	                    	}
 	                	}
@@ -118,8 +119,8 @@ class Crystal {
     	if (adhesion){
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                if (map[i][j] == 2) {
-	                    map[i][j] = 1;
+	                if (map1[i][j] == 2) {
+	                    map1[i][j] = 1;
 	                }
 	            }
 	        }
@@ -128,8 +129,8 @@ class Crystal {
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
 	            	for (int k = 0; k < size; k++) {
-		                if (map[i][j][k] == 2) {
-		                    map[i][j][k] = 1;
+		                if (map2[i][j][k] == 2) {
+		                    map2[i][j][k] = 1;
 		                }
 	            	}
 	            }
@@ -141,7 +142,7 @@ class Crystal {
     	if (adhesion){
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                if (map[i][j] - 3 && map[i][j]) {
+	                if (map1[i][j] - 3 && map1[i][j]) {
 	                    return false;
 	                }
 	            }
@@ -152,7 +153,7 @@ class Crystal {
 	    	for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
 	            	for (int k = 0; k < size; k++) {
-		                if (map[i][j][k] - 3 && map[i][j][k]) {
+		                if (map2[i][j][k] - 3 && map2[i][j][k]) {
 		                    return false;
 		                }
 	            	}
@@ -174,47 +175,47 @@ public:
         if(adhesion){
 	        map = new int *[size];
 	        for (int i = 0; i < size; i++) {
-	            map[i] = new int[size];
+	            map1[i] = new int[size];
 	        }
 	        for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
-	                map[i][j] = 0;
+	                map1[i][j] = 0;
 	            }
 	        }
 	        while (number) {
 	            int attempt = random(0, size * size - 1);
-	            if (!map[attempt / size][attempt % size]) {
-	                map[attempt / size][attempt % size] = 1;
+	            if (!map1[attempt / size][attempt % size]) {
+	                map1[attempt / size][attempt % size] = 1;
 	                number--;
 	            }
 	        }
         }
         else{
-	        map = new int **[size];
+	        map2 = new int **[size];
 	        for (int i = 0; i < size; i++) {
-	            map[i] = new int *[size];
+	            map2[i] = new int *[size];
 	        }
 	        for (int i = 0; i < size; i++){
 	        	for(int j = 0; j < size; j++){
-	        		map[i][j] = new int [size * size];
+	        		map2[i][j] = new int [size * size];
 	        	}
 	        }
 	        for (int i = 0; i < size; i++) {
 	            for (int j = 0; j < size; j++) {
 	            	for (int k = 0; k < size; k++){
-	                	map[i][j][k] = 0;
+	                	map2[i][j][k] = 0;
 	            	}
 	            }
 	        }
 	        while (number) {
 	            int attempt = random(0, size * size - 1);
-	            map[attempt / size][attempt % size][0]++;
+	            map2[attempt / size][attempt % size][0]++;
 	            number--;
 	        }
 	        for (int i = 0; i < size; i++){
 	        	for(int j = 0; j < size; j++){
 	        		for(int k = 0; k < map[i][j][0]; k++){
-	        			map[i][j][k] = 1;
+	        			map2[i][j][k] = 1;
 	        		}
 	        	}
 	        }
@@ -224,6 +225,7 @@ public:
     int mainloop() {
         int count = 0;
         while (!finished()) {
+        	print();
             check();
             move();
             stop();
@@ -233,8 +235,8 @@ public:
     }
 
     void bottleneck() {
-        map[1][1] = 1;
-        map[2][2] = 1;
+        map1[1][1] = 1;
+        map1[2][2] = 1;
         print();
         move();
         print();
@@ -287,7 +289,7 @@ void third_task(){
 }
 
 int main() {
-    Crystal c(5, 0);
-    c.bottleneck();
+    Crystal c(5, 3, true);
+    c.mainloop();
     return 0;
 }
