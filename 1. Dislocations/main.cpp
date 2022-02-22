@@ -121,6 +121,14 @@ public:
         }
         return count;
     }
+
+    void bottleneck() {
+        map[1][1] = 1;
+        map[2][2] = 1;
+        print();
+        move();
+        print();
+    }
 };
 
 class Crystal_1d {
@@ -271,6 +279,7 @@ void third_task(){
 }
 
 int main() {
-    third_task();
+    Crystal c(5, 0);
+    c.bottleneck();
     return 0;
 }
