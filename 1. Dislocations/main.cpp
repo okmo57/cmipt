@@ -85,6 +85,10 @@ class Crystal {
         return true;
     }
 
+    ~Crystal(){
+        delete map;
+    }
+
 public:
     Crystal(int N, int number) {
         //statements:
