@@ -45,24 +45,31 @@ void quick_sort(int array[], int n){
 void heat_sort(int array[], int n){
 	for(int i = n / 2 - 1; i >= 0; i--){
 		if(array[i] < array[2 * i + 1]){
-			if(2 * i + 2 < n && array[2 * i + 2] > array[2 * i + 1]){
-				swap(array[2 * i + 2], array[i]);
-			} else {
-				swap(array[2 * i + 1], array[i]);
-			}
+			swap(array[2 * i + 1], array[i]);
 		}
+		if(2 * i + 2 < n && array[2 * i + 2] > array[i]){
+			swap(array[2 * i + 2], array[i]);
+			swap(array[2 * i + 2], array[2 * i + 1]);
+		}
+		std::cout << i << std::endl;
+		print(array, n);
 	}
+	print(array, n);
 	for(; n > 0; n--){
 		int index = 0;
+		int new_index;
 		swap(array[0], array[n - 1]);
 		while(index <= n / 2 - 1){
 			if(array[index] < array[2 * index + 1]){
-			if(2 * index + 2 < n && array[2 * index + 2] > array[2 * index + 1]){
-				swap(array[2 * index + 2], array[index]);
-			} else {
 				swap(array[2 * index + 1], array[index]);
+				new_index = 2 * index + 1;
 			}
-		}
+			if(2 * index + 2 < n && array[2 * index + 2] > array[index]){
+				swap(array[2 * index + 2], array[index]);
+				swap(array[2 * index + 2], array[2 * index + 1]);
+				new_index = 2 * index + 2;
+			}
+			index = new_index;
 		}
 	}
 }
@@ -72,7 +79,7 @@ int main() {
 	int *array = new int [n];
 	fill(array, n);
 	print(array, n);
-	quick_sort(array, n);
+	heat_sort(array, n);
 	print(array, n);
 	return 0;
 }
