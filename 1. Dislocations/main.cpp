@@ -86,8 +86,8 @@ class Crystal {
     }
 
     ~Crystal(){
-        for(int i = 0; i < size; i++) delete map[i];
-        delete map;
+        for(int i = 0; i < size; i++) delete[] map[i];
+        delete[] map;
     }
 
 public:
