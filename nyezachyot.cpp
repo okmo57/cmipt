@@ -1,8 +1,8 @@
-long long matrix_chain(const int *p, int size){
+unsigned long long matrix_chain(unsigned *p, int size){
     if(size < 3) return 0;
-    int Min = 10000000;
+    unsigned long long Min = 10000000;
     int Ind = -1;
-    long long answer = 0;
+    unsigned long long answer = 0;
     for(int i = 1; i < size - 1; i++){
         if(p[i] < Min){
             Min = p[i];
